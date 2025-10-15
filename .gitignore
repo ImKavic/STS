@@ -1,0 +1,10 @@
+# Hasil Kompilasi Java
+/bin/
+*.class
+
+# File Biner Lain
+*.log
+
+# File Khusus OS (jika ada)
+.DS_Store
+Thumbs.db

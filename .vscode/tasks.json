@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Java",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "javac -d bin -cp \"lib\\mssql-jdbc.jar\" (Get-ChildItem -Recurse -Filter *.java | ForEach-Object { $_.FullName })"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}

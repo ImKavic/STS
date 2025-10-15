@@ -9,7 +9,8 @@
             "classPaths": [
                 "${workspaceFolder}/bin",
                 "${workspaceFolder}/lib/mssql-jdbc.jar"
-            ]
+            ],
+            "preLaunchTask": "Build Java"
         }
     ]
 }
