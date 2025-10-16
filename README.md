@@ -9,5 +9,5 @@ Related links:
 - https://learn.microsoft.com/en-us/ssms/install/install
 - https://learn.microsoft.com/en-us/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server?view=sql-server-ver17
 
-Connection test:
-1. In terminal, run: .\connection.bat to test connection or F5
+Run:
+1. Open VSCode or Visual Studio, then launch with F5 or CTRL + F5
