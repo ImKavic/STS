@@ -1,10 +1,10 @@
-# Hasil Kompilasi Java
+# Compile
 /bin/
 *.class
 
-# File Biner Lain
+# Log
 *.log
 
-# File Khusus OS (jika ada)
+# OS Files
 .DS_Store
 Thumbs.db
