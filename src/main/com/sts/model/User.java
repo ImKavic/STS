@@ -4,5 +4,5 @@ public class User {
     public long  Id;
     public String Username;
     public String Password;
-    public string Name;
+    public String Name;
 }
