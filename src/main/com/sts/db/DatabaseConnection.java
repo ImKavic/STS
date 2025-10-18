@@ -16,9 +16,9 @@ public class DatabaseConnection {
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
-                System.out.println("Koneksi ke database berhasil!");
+                System.out.println("Connection succed");
             } catch (SQLException e) {
-                System.out.println("Gagal terhubung ke database.");
+                System.out.println("Connect to database fail");
                 // e.printStackTrace();
             }
         }
@@ -30,7 +30,7 @@ public class DatabaseConnection {
             try {
                 connection.close();
                 connection = null;
-                System.out.println("Koneksi database ditutup.");
+                System.out.println("Connection closed.");
             } catch (SQLException e) {
                 // e.printStackTrace();
             }
