@@ -1,0 +1,60 @@
+### Base URL for the User API
+@baseUrl = http://localhost:8080/api/users
+@contentType = application/json
+@username = adit
+@password = kikiadit
+
+# =================================================================
+# 1. SIGNUP (POST: /api/users/signup)
+# Mencoba membuat pengguna baru
+# =================================================================
+POST {{baseUrl}}/signup
+Content-Type: {{contentType}}
+
+{
+    "username": "{{username}}",
+    "password": "{{password}}",
+    "name": "User Testing",
+    "phoneNumber": "08123456789"
+}
+
+---
+
+# =================================================================
+# 2. LOGIN (POST: /api/users/login)
+# Mencoba login dengan pengguna yang sudah dibuat
+# =================================================================
+POST {{baseUrl}}/login
+Content-Type: {{contentType}}
+
+{
+    "username": "{{username}}",
+    "password": "{{password}}"
+}
+
+---
+
+# =================================================================
+# 3. GET ALL USERS (GET: /api/users)
+# Mengambil daftar semua pengguna dari database
+# =================================================================
+GET {{baseUrl}}
+
+---
+
+# =================================================================
+# 4. UPDATE USER (PUT: /api/users/{id})
+# Memperbarui data pengguna dengan ID 1
+# Ganti 1 dengan ID user yang sebenarnya dari hasil SIGNUP/GET
+# =================================================================
+@userId = 1
+
+PUT {{baseUrl}}/{{userId}}
+Content-Type: {{contentType}}
+
+{
+    "username": "new_test_username",
+    "password": "new_secure_password",
+    "name": "Updated Test Name",
+    "phoneNumber": "08987654321"
+}

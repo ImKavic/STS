@@ -2,13 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build Java",
+            "label": "Build Java", // Biarkan label tetap sama
             "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-Command",
-                "javac -d bin -cp \"lib\\mssql-jdbc.jar\" (Get-ChildItem -Recurse -Filter *.java | ForEach-Object { $_.FullName })"
-            ],
+            "command": "mvn clean install", // Ganti 'javac' dengan 'mvn clean install'
             "group": "build",
             "problemMatcher": []
         }

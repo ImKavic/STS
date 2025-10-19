@@ -1,16 +1,13 @@
+
 {
     "version": "0.2.0",
     "configurations": [
         {
             "type": "java",
-            "name": "Run App",
+            "name": "Run Spring Boot App",
             "request": "launch",
-            "mainClass": "com.sts.App",
-            "classPaths": [
-                "${workspaceFolder}/bin",
-                "${workspaceFolder}/lib/mssql-jdbc.jar"
-            ],
-            "preLaunchTask": "Build Java"
+            "mainClass": "com.sts.App", 
+            "projectName": "sts" // Pastikan ini ada
         }
     ]
 }

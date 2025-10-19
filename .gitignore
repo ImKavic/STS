@@ -1,10 +1,54 @@
-# Compile
-/bin/
+# ------------------------------------------------------------------------
+# Standar Build Tools & Java
+# ------------------------------------------------------------------------
+# Maven targets
+/target/
+# Gradle targets (jika sewaktu-waktu digunakan)
+/build/
+
+# Compiled class files
 *.class
 
-# Log
-*.log
+# Package Files (JAR, WAR, EAR, etc.)
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
 
-# OS Files
-.DS_Store
-Thumbs.db
+# Log files
+*.log
+log/
+logs/
+*.json.log
+
+# ------------------------------------------------------------------------
+# Spring Boot / IDE
+# ------------------------------------------------------------------------
+# Spring Boot temporary files
+/temp/
+
+# Project Lombok (MapStruct, dsb.)
+# File yang dihasilkan oleh proses anotasi
+/generated-sources/
+
+# ------------------------------------------------------------------------
+# IDE Specific Files
+# ------------------------------------------------------------------------
+# Eclipse / STS IDE files
+.metadata
+.project
+.classpath
+/bin/
+
+# IntelliJ IDEA / Android Studio files
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# ------------------------------------------------------------------------
+# OS & Miscellaneous Files
+# ------------------------------------------------------------------------
+.DS_Store # Mac OS
+Thumbs.db # Windows
