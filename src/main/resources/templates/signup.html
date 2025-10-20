@@ -8,7 +8,15 @@
         .signup-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 300px; }
         h2 { text-align: center; margin-bottom: 20px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"], input[type="password"] { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        /* Style untuk input */
+        input[type="text"], 
+        input[type="password"] { 
+            width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; 
+        }
+        /* Style khusus untuk input error */
+        input.error {
+            border: 2px solid red;
+        }
         button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
         button:hover { background-color: #0056b3; }
         #message { margin-top: 15px; text-align: center; font-weight: bold; }
@@ -28,6 +36,9 @@
         <label for="password">Password:</label>
         <input type="password" id="password" required>
         
+        <label for="confirmPassword">Konfirmasi Password:</label>
+        <input type="password" id="confirmPassword" required>
+
         <label for="phoneNumber">Nomor Telepon:</label>
         <input type="text" id="phoneNumber">
 
@@ -38,22 +49,41 @@
 </div>
 
 <script>
-    // Kode JavaScript akan diletakkan di sini atau di file terpisah
     document.getElementById('signupForm').addEventListener('submit', handleSignup);
     
-    // Fungsi untuk menangani proses Sign Up
     async function handleSignup(event) {
-        event.preventDefault(); // Mencegah form melakukan submit standar (reload halaman)
+        event.preventDefault();
 
         const form = event.target;
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
         const messageDiv = document.getElementById('message');
         
-        // 1. Ambil data dari form
+        // --- LOGIKA VALIDASI BARU ---
+        
+        // Hapus kelas error sebelumnya
+        passwordInput.classList.remove('error');
+        confirmPasswordInput.classList.remove('error');
+        
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            messageDiv.textContent = '❌ Gagal: Password dan Konfirmasi Password tidak cocok!';
+            messageDiv.style.color = 'red';
+            
+            // Tambahkan visual feedback
+            passwordInput.classList.add('error');
+            confirmPasswordInput.classList.add('error');
+            
+            return; // Hentikan proses pengiriman ke server
+        }
+        
+        // --- Akhir Logika Validasi ---
+
+        // 1. Ambil data dari form (hanya password utama yang dikirim)
         const userData = {
             name: form.name.value,
             username: form.username.value,
-            password: form.password.value,
-            phoneNumber: form.phoneNumber.value || null // Kirim null jika kosong
+            password: passwordInput.value, // Menggunakan nilai dari password utama
+            phoneNumber: form.phoneNumber.value || null
         };
 
         messageDiv.textContent = 'Mendaftarkan...';
@@ -66,27 +96,24 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(userData) // Konversi objek JS menjadi JSON string
+                body: JSON.stringify(userData)
             });
 
             // 3. Tangani respons dari Server
             const responseText = await response.text();
             
             if (response.ok) {
-                // HTTP Status 200-299 (Success)
-                messageDiv.textContent = `Pendaftaran berhasil! ${responseText}`;
+                messageDiv.textContent = `✅ Pendaftaran berhasil! ${responseText}`;
                 messageDiv.style.color = 'green';
-                form.reset(); // Kosongkan form setelah sukses
+                form.reset();
             } else {
-                // HTTP Status 400 atau 500 (Error)
-                messageDiv.textContent = `Gagal daftar: ${responseText}`;
+                messageDiv.textContent = `❌ Gagal daftar: ${responseText}`;
                 messageDiv.style.color = 'red';
             }
             
         } catch (error) {
-            // Kesalahan jaringan atau server tidak berjalan
             console.error('Network Error:', error);
-            messageDiv.textContent = 'Gagal terhubung ke server. Pastikan aplikasi Spring Boot berjalan.';
+            messageDiv.textContent = '❌ Gagal terhubung ke server.';
             messageDiv.style.color = 'red';
         }
     }

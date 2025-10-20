@@ -1,0 +1,75 @@
+/* CSS untuk tata letak dan styling */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center; /* Posisikan kotak di tengah horizontal */
+    align-items: center; /* Posisikan kotak di tengah vertikal */
+    height: 100vh; /* Tinggi penuh viewport */
+    margin: 0;
+    background-color: #f4f4f4;
+}
+.login-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Bayangan yang lebih halus */
+    width: 350px;
+    text-align: center;
+}
+h2 {
+    margin-bottom: 25px;
+    color: #333;
+}
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Jarak antar tombol */
+    margin-top: 20px;
+}
+button {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+#signInButton {
+    flex-grow: 1; /* Tombol Sign In akan lebih besar */
+    background-color: #007bff;
+    color: white;
+}
+#signInButton:hover {
+    background-color: #0056b3;
+}
+#signUpButton {
+    flex-grow: 0.5; /* Tombol Sign Up sedikit lebih kecil */
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none; /* Hilangkan garis bawah dari link */
+    display: block;
+    line-height: 12px; /* Sesuaikan tinggi teks */
+}
+#signUpButton:hover {
+    background-color: #5a6268;
+}
+#message {
+    margin-top: 15px;
+    font-weight: bold;
+    color: red;
+}
