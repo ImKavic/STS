@@ -8,6 +8,7 @@
 # 1. SIGNUP (POST: /api/users/signup)
 # Mencoba membuat pengguna baru
 # =================================================================
+###
 POST {{baseUrl}}/signup
 Content-Type: {{contentType}}
 
@@ -24,6 +25,7 @@ Content-Type: {{contentType}}
 # 2. LOGIN (POST: /api/users/login)
 # Mencoba login dengan pengguna yang sudah dibuat
 # =================================================================
+###
 POST {{baseUrl}}/login
 Content-Type: {{contentType}}
 
@@ -38,6 +40,7 @@ Content-Type: {{contentType}}
 # 3. GET ALL USERS (GET: /api/users)
 # Mengambil daftar semua pengguna dari database
 # =================================================================
+###
 GET {{baseUrl}}
 
 ---
@@ -47,6 +50,7 @@ GET {{baseUrl}}
 # Memperbarui data pengguna dengan ID 1
 # Ganti 1 dengan ID user yang sebenarnya dari hasil SIGNUP/GET
 # =================================================================
+###
 @userId = 1
 
 PUT {{baseUrl}}/{{userId}}

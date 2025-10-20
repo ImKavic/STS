@@ -1,13 +1,29 @@
-
 {
     "version": "0.2.0",
     "configurations": [
         {
             "type": "java",
-            "name": "Run Spring Boot App",
+            "name": "Launch Spring Boot",
             "request": "launch",
-            "mainClass": "com.sts.App", 
-            "projectName": "sts" // Pastikan ini ada
+            "mainClass": "com.sts.App",
+            "projectName": "sts"
+        },
+    
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Full Launch (Java + Chrome)",
+            "configurations": [
+                "Launch Spring Boot",
+                "Launch Chrome"
+            ]
         }
     ]
 }

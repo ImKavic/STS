@@ -10,4 +10,9 @@ public class ViewController {
     public String index() {
         return "index"; 
     }
+    
+    @GetMapping("/signup") 
+    public String signup() {
+        return "signup";
+    }
 }
