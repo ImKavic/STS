@@ -15,4 +15,9 @@ public class ViewController {
     public String signup() {
         return "signup";
     }
+
+    @GetMapping("/profile")
+    public String profile() {
+        return "profile";
+    }
 }
