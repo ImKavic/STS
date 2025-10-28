@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sts.model.LoginResponse;
 import com.sts.model.User;
 import com.sts.repository.UserRepository;
 
@@ -29,14 +30,17 @@ public class UserService
     }
 
     // Method 3: login
-    public String login(String username, String password) {
-        // Panggil method kustom di repository JPA
-        User user = userRepository.findByUsernameAndPassword(username, password); 
+    public LoginResponse login(String username, String password) {
+        User user = userRepository.findByUsernameAndPassword(username, password);
         
         if (user != null) {
-            return "Login successful. Welcome, " + user.getName() + "!"; 
+            // Login sukses
+            String message = "Login successful. Welcome, " + user.getName() + "!";
+            return new LoginResponse(message, true); 
         } else {
-            return "Invalid username or password.";
+            // Login gagal
+            String message = "Invalid username or password.";
+            return new LoginResponse(message, false);
         }
     }
 

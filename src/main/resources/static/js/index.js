@@ -1,8 +1,7 @@
 document.getElementById('loginForm').addEventListener('submit', handleLogin);
 
-// Fungsi untuk menangani proses Login
 async function handleLogin(event) {
-    event.preventDefault(); // Mencegah form reload halaman
+    event.preventDefault();
 
     const form = event.target;
     const messageDiv = document.getElementById('message');
@@ -25,22 +24,21 @@ async function handleLogin(event) {
             body: JSON.stringify(credentials)
         });
 
-        const responseText = await response.text();
+        const responseData = await response.json();
         
         if (response.ok) {
-            // Login berhasil (HTTP Status 200-299)
-            messageDiv.textContent = responseText;
+            // Login berhasil (HTTP Status 200 OK)
+            messageDiv.textContent = responseData.message;
             messageDiv.style.color = 'green';
             
-            // --- LOGIKA REDIRECT BARU ---
-            // Redirect ke halaman profil setelah berhasil login
+            // Redirect
             setTimeout(() => {
                  window.location.href = '/profile'; 
-            }, 1500); // Tunda 1.5 detik agar user sempat melihat pesan sukses
+            }, 1500); 
             
         } else {
-            // Login gagal (HTTP Status 4xx, 5xx, atau respons.ok=false)
-            messageDiv.textContent = `Login Gagal: ${responseText}`;
+            // Login gagal (HTTP Status 401 UNAUTHORIZED)
+            messageDiv.textContent = `Login Gagal: ${responseData.message}`;
             messageDiv.style.color = 'red';
         }
         
