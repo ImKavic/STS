@@ -34,13 +34,13 @@ public class UserService
         User user = userRepository.findByUsernameAndPassword(username, password);
         
         if (user != null) {
-            // Login sukses
+            // Login sukses: Kembalikan ID pengguna
             String message = "Login successful. Welcome, " + user.getName() + "!";
-            return new LoginResponse(message, true); 
+            return new LoginResponse(message, true, user.getId()); // user.getId() adalah kuncinya
         } else {
             // Login gagal
             String message = "Invalid username or password.";
-            return new LoginResponse(message, false);
+            return new LoginResponse(message, false, null);
         }
     }
 
@@ -53,5 +53,12 @@ public class UserService
         } else {
             return "Error: User ID " + id + " not found.";
         }
+    }
+
+    // Method 5: findUserById
+    public User findUserById(long id) {
+        // userRepository.findById(id) mengembalikan Optional<User>
+        // Kita gunakan .orElse(null) untuk mengembalikan User jika ada, atau null jika tidak ada.
+        return userRepository.findById(id).orElse(null); 
     }
 }

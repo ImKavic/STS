@@ -51,4 +51,18 @@ public class UserController {
     public String updateProfile(@PathVariable long id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
+
+    @GetMapping("/{id}") // Perhatikan URL Path
+    public ResponseEntity<User> getProfile(@PathVariable long id) {
+        User user = userService.findUserById(id);
+        
+        if (user != null) {
+            user.setPassword(null);
+            // 200 OK
+            return new ResponseEntity<>(user, HttpStatus.OK); 
+        } else {
+            // 404 Not Found
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+        }
+    }
 }

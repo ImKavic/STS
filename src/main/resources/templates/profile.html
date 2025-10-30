@@ -2,23 +2,230 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profil Pengguna</title>
+    <title>Edit Profil Pengguna</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #e6ffe6; }
-        .profile-card { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center; }
-        h1 { color: #008000; }
-        p { margin-top: 20px; color: #555; }
-        a { color: #007bff; text-decoration: none; font-weight: bold; }
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            background-color: #f0f8ff; /* Warna latar belakang baru */
+        }
+        .profile-container { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+            width: 400px; /* Lebar lebih besar */
+        }
+        h2 { 
+            text-align: center; 
+            margin-bottom: 25px; 
+            color: #007bff;
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        /* Style untuk input */
+        input[type="text"], 
+        input[type="password"] { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 20px; 
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+            box-sizing: border-box; 
+        }
+        /* Style khusus untuk input error */
+        input.error {
+            border: 2px solid red;
+        }
+        button { 
+            width: 100%; 
+            padding: 12px; 
+            background-color: #28a745; /* Warna hijau untuk update */
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover { 
+            background-color: #1e7e34; 
+        }
+        #profileMessage { 
+            margin-top: 15px; 
+            text-align: center; 
+            font-weight: bold; 
+        }
+        .logout-button {
+            width: 100%; 
+            padding: 12px; 
+            background-color: #dc3545; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold;
+            text-align: center;  
+            text-decoration: none;   
+            display: block;        
+            margin-top: 15px;      
+            transition: background-color 0.3s;
+        }
+        .logout-button:hover { 
+            background-color: #c82333; 
+        }
     </style>
 </head>
 <body>
 
-<div class="profile-card">
-    <h1>Selamat Datang di Halaman Profil!</h1>
-    <p>Autentikasi Berhasil. Anda berhasil masuk.</p>
-    <p>Ini adalah halaman yang dilindungi.</p>
-    <p><a href="/">Kembali ke Login/Home</a></p>
+<div class="profile-container">
+    <h2>Data Profil</h2>
+    
+    <form id="profileForm">
+        <input type="hidden" id="id" name="id" value="1"> <label for="name">Nama Lengkap:</label>
+        <input type="text" id="name" required>
+        
+        <label for="username">Username:</label>
+        <input type="text" id="username" required autocomplete="off"> 
+        <label for="password">Password (Biarkan kosong jika tidak ingin diubah):</label>
+
+        <input type="password" id="password" autocomplete="off">
+        
+        <label for="confirmPassword">Konfirmasi Password:</label>
+        <input type="password" id="confirmPassword" autocomplete="off">
+
+        <label for="phoneNumber">Nomor Telepon:</label>
+        <input type="text" id="phoneNumber" autocomplete="off">
+
+        <button type="submit">Update Perubahan</button>
+    </form>
+    
+    <div id="profileMessage"></div>
+    <button id="logout-button" class="logout-button">Logout</button>
 </div>
+
+<script>
+    document.getElementById('profileForm').addEventListener('submit', handleProfileUpdate);
+    document.querySelector('.logout-button').addEventListener('click', handleLogout);
+    
+    // --- ISI DATA PROFIL SAAT HALAMAN DIMUAT --
+   document.addEventListener('DOMContentLoaded', () => {
+        fetchUserProfile();
+    });
+
+    async function fetchUserProfile() {
+        const userId = localStorage.getItem('loggedInUserId');
+        const messageDiv = document.getElementById('profileMessage');
+
+        if (!userId) {
+            messageDiv.textContent = 'Akses ditolak. Silakan login kembali.';
+            messageDiv.style.color = 'red';
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/users/${userId}`);
+            
+            if (response.ok) {
+                const userData = await response.json();
+                
+                document.getElementById('id').value = userData.id; 
+                document.getElementById('name').value = userData.name; 
+                document.getElementById('username').value = userData.username;
+                document.getElementById('phoneNumber').value = userData.phoneNumber;
+                
+            } else {
+                messageDiv.textContent = '❌ Gagal mengambil data profil. User tidak ditemukan.';
+                messageDiv.style.color = 'red';
+            }
+        } catch (error) {
+            messageDiv.textContent = '❌ Gagal terhubung ke server.';
+            messageDiv.style.color = 'red';
+        }
+    }
+
+    async function handleProfileUpdate(event) {
+        event.preventDefault(); 
+
+        const form = event.target;
+        const idInput = document.getElementById('id');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const messageDiv = document.getElementById('profileMessage');
+        
+        // Validasi Konfirmasi Password
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            messageDiv.textContent = '❌ Gagal: Password dan Konfirmasi Password tidak cocok!';
+            messageDiv.style.color = 'red';
+            passwordInput.classList.add('error');
+            confirmPasswordInput.classList.add('error');
+            return;
+        }
+        
+        passwordInput.classList.remove('error');
+        confirmPasswordInput.classList.remove('error');
+        
+        const userData = {
+            id: idInput.value, 
+            username: document.getElementById('username').value,
+            password: passwordInput.value || "nochange",
+            name: document.getElementById('name').value,
+            phoneNumber: document.getElementById('phoneNumber').value || null
+        };
+
+        messageDiv.textContent = 'Menyimpan perubahan...';
+        messageDiv.style.color = '#007bff';
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/users/${userData.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+
+            const responseText = await response.text();
+            
+            if (response.ok) {
+                messageDiv.textContent = `✅ Berhasil`;
+                messageDiv.style.color = 'green';
+                // Reset password fields setelah update sukses
+                passwordInput.value = '';
+                confirmPasswordInput.value = ''; 
+            } else {
+                messageDiv.textContent = `❌ Gagal: ${responseText}`;
+                messageDiv.style.color = 'red';
+            }
+            
+        } catch (error) {
+            console.error('Network Error:', error);
+            messageDiv.textContent = '❌ Gagal terhubung ke server.';
+            messageDiv.style.color = 'red';
+        }
+    }
+
+    function handleLogout(event) {
+        event.preventDefault();
+        
+        const messageDiv = document.getElementById('profileMessage');
+
+        localStorage.removeItem('loggedInUserId');
+
+        messageDiv.textContent = 'Logout Berhasil. Mengalihkan...';
+        messageDiv.style.color = 'blue';
+
+        setTimeout(() => {
+            window.location.href = '/'; 
+        }, 1000);
+    }
+</script>
 
 </body>
 </html>

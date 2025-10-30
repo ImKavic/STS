@@ -20,6 +20,21 @@
         button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
         button:hover { background-color: #0056b3; }
         #message { margin-top: 15px; text-align: center; font-weight: bold; }
+
+        .login-link-container {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        .login-link {
+            color: #007bff; /* Warna biru, sama dengan tombol Daftar */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .login-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -28,24 +43,27 @@
     <h2>Daftar Pengguna Baru</h2>
     <form id="signupForm">
         <label for="name">Nama Lengkap:</label>
-        <input type="text" id="name" required>
+        <input type="text" id="name" required autocomplete="off">
         
         <label for="username">Username:</label>
-        <input type="text" id="username" required>
+        <input type="text" id="username" required autocomplete="off">
         
         <label for="password">Password:</label>
-        <input type="password" id="password" required>
+        <input type="password" id="password" required autocomplete="off">
         
         <label for="confirmPassword">Konfirmasi Password:</label>
-        <input type="password" id="confirmPassword" required>
+        <input type="password" id="confirmPassword" required autocomplete="off">
 
         <label for="phoneNumber">Nomor Telepon:</label>
-        <input type="text" id="phoneNumber">
+        <input type="text" id="phoneNumber" autocomplete="off">
 
         <button type="submit">Daftar</button>
     </form>
     
     <div id="message"></div>
+    <p class="login-link-container">
+        Sudah punya akun? <a href="/" class="login-link">Masuk di sini</a>
+    </p>
 </div>
 
 <script>
@@ -103,7 +121,7 @@
             const responseText = await response.text();
             
             if (response.ok) {
-                messageDiv.textContent = `✅ Pendaftaran berhasil! ${responseText}`;
+                messageDiv.textContent = `✅ Pendaftaran berhasil!`;
                 messageDiv.style.color = 'green';
                 form.reset();
             } else {

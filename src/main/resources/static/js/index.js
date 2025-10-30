@@ -28,6 +28,7 @@ async function handleLogin(event) {
         
         if (response.ok) {
             // Login berhasil (HTTP Status 200 OK)
+            localStorage.setItem('loggedInUserId', responseData.userId);
             messageDiv.textContent = responseData.message;
             messageDiv.style.color = 'green';
             
