@@ -62,8 +62,13 @@ button {
     background-color: #6c757d;
     color: white;
     text-decoration: none; /* Hilangkan garis bawah dari link */
-    display: block;
-    line-height: 12px; /* Sesuaikan tinggi teks */
+    
+    display: flex;
+    align-items: center; /* Menyelaraskan teks secara vertikal di tengah */
+    justify-content: center; /* Menyelaraskan teks secara horizontal di tengah */
+    padding: 12px; /* Menggunakan padding yang sama dengan tombol 'Sign In' */
+    border-radius: 6px;
+    font-weight: bold;
 }
 #signUpButton:hover {
     background-color: #5a6268;
