@@ -10,17 +10,19 @@
             justify-content: center; 
             align-items: center; 
             height: 100vh; 
-            background-color: #f0f8ff; /* Warna latar belakang baru */
+            background-color: #e6ffe6;
         }
         .profile-container { 
             background: white; 
             padding: 30px; 
             border-radius: 10px; 
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
-            width: 400px; /* Lebar lebih besar */
+            width: 400px;
+            position: relative;
         }
         h2 { 
             text-align: center; 
+            margin-top: 0;
             margin-bottom: 25px; 
             color: #007bff;
         }
@@ -29,7 +31,7 @@
             margin-bottom: 5px; 
             font-weight: bold; 
         }
-        /* Style untuk input */
+
         input[type="text"], 
         input[type="password"] { 
             width: 100%; 
@@ -39,14 +41,14 @@
             border-radius: 6px; 
             box-sizing: border-box; 
         }
-        /* Style khusus untuk input error */
+
         input.error {
             border: 2px solid red;
         }
         button { 
             width: 100%; 
             padding: 12px; 
-            background-color: #28a745; /* Warna hijau untuk update */
+            background-color: #28a745;
             color: white; 
             border: none; 
             border-radius: 6px; 
@@ -56,6 +58,23 @@
         }
         button:hover { 
             background-color: #1e7e34; 
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            
+            background-color: #f0f0f0; 
+            color: #555;
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .back-button:hover {
+            background-color: #e0e0e0;
         }
         #profileMessage { 
             margin-top: 15px; 
@@ -80,11 +99,30 @@
         .logout-button:hover { 
             background-color: #c82333; 
         }
+        .delete-button { 
+            width: 100%; 
+            padding: 12px; 
+            margin-top: 15px; /* Beri jarak dari tombol Update */
+            background-color: #c82333; /* Warna merah gelap */
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .delete-button:hover { 
+            background-color: #a71d2a; /* Warna lebih gelap lagi saat hover */
+        }
     </style>
 </head>
 <body>
 
 <div class="profile-container">
+    <a href="/home" class="back-button">
+        &#9664; Kembali
+    </a>
+
     <h2>Data Profil</h2>
     
     <form id="profileForm">
@@ -105,14 +143,15 @@
 
         <button type="submit">Update Perubahan</button>
     </form>
-    
-    <div id="profileMessage"></div>
+    <button id="deleteAccountButton" class="delete-button">Hapus Akun</button>
     <button id="logout-button" class="logout-button">Logout</button>
+    <div id="profileMessage"></div>
 </div>
 
 <script>
     document.getElementById('profileForm').addEventListener('submit', handleProfileUpdate);
     document.querySelector('.logout-button').addEventListener('click', handleLogout);
+    document.getElementById('deleteAccountButton').addEventListener('click', handleDeleteAccount);
     
     // --- ISI DATA PROFIL SAAT HALAMAN DIMUAT --
    document.addEventListener('DOMContentLoaded', () => {
@@ -158,23 +197,30 @@
         const passwordInput = document.getElementById('password');
         const confirmPasswordInput = document.getElementById('confirmPassword');
         const messageDiv = document.getElementById('profileMessage');
-        
+
+        // Ambil nilai password, pastikan tidak ada spasi
+        const newPassword = passwordInput.value.trim(); 
+
         // Validasi Konfirmasi Password
-        if (passwordInput.value !== confirmPasswordInput.value) {
+        if (newPassword !== confirmPasswordInput.value.trim()) { // <--- Tambahkan .trim() di sini juga
             messageDiv.textContent = '❌ Gagal: Password dan Konfirmasi Password tidak cocok!';
             messageDiv.style.color = 'red';
             passwordInput.classList.add('error');
             confirmPasswordInput.classList.add('error');
             return;
         }
-        
+
         passwordInput.classList.remove('error');
         confirmPasswordInput.classList.remove('error');
-        
+
+        // Tentukan password yang akan dikirim ke server:
+        // Jika input password kosong, kirim 'nochange'. Jika tidak, kirim password baru.
+        const passwordToSend = newPassword === '' ? "nochange" : newPassword;
+
         const userData = {
             id: idInput.value, 
-            username: document.getElementById('username').value,
-            password: passwordInput.value || "nochange",
+            username: document.getElementById('username').value, 
+            password: passwordToSend,
             name: document.getElementById('name').value,
             phoneNumber: document.getElementById('phoneNumber').value || null
         };
@@ -224,6 +270,51 @@
         setTimeout(() => {
             window.location.href = '/'; 
         }, 1000);
+    }
+
+    async function handleDeleteAccount() {
+        if (!confirm('Apakah Anda yakin ingin menghapus akun Anda? Tindakan ini tidak dapat dibatalkan.')) {
+            return;
+        }
+
+        const userId = localStorage.getItem('loggedInUserId');
+        const messageDiv = document.getElementById('profileMessage');
+
+        if (!userId) {
+            messageDiv.textContent = 'ID pengguna tidak ditemukan.';
+            messageDiv.style.color = 'red';
+            return;
+        }
+
+        messageDiv.textContent = 'Menghapus akun...';
+        messageDiv.style.color = '#dc3545'; 
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/users/${userId}`, {
+                method: 'DELETE'
+            });
+
+            const responseData = await response.json(); 
+            
+            if (response.ok) {
+                localStorage.removeItem('loggedInUserId');
+
+                messageDiv.textContent = `✅ Hapus akun berhasil: ${responseData.message}, akan kembali ke halaman utama.`;
+                messageDiv.style.color = 'green';
+                
+                setTimeout(() => {
+                    window.location.href = '/'; 
+                }, 2000); 
+            } else {
+                messageDiv.textContent = `❌ Gagal menghapus: ${responseData.message}`;
+                messageDiv.style.color = 'red';
+            }
+            
+        } catch (error) {
+            console.error('Network Error:', error);
+            messageDiv.textContent = '❌ Gagal terhubung ke server.';
+            messageDiv.style.color = 'red';
+        }
     }
 </script>
 

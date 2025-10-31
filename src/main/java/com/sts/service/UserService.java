@@ -1,11 +1,13 @@
 package com.sts.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sts.model.LoginResponse;
+import com.sts.model.SimpleApiResponse;
 import com.sts.model.User;
 import com.sts.repository.UserRepository;
 
@@ -46,9 +48,18 @@ public class UserService
 
     // Method 4: updateUser
     public String updateUser(long id, User userDetails) {
-        if (userRepository.existsById(id)) {
+        Optional<User> existingUserOpt = userRepository.findById(id);
+
+        if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
             userDetails.setId(id);
+            
+            if ("nochange".equals(userDetails.getPassword())) {
+                userDetails.setPassword(existingUser.getPassword());
+            } 
+
             userRepository.save(userDetails);
+            
             return "User ID " + id + " updated successfully.";
         } else {
             return "Error: User ID " + id + " not found.";
@@ -57,8 +68,16 @@ public class UserService
 
     // Method 5: findUserById
     public User findUserById(long id) {
-        // userRepository.findById(id) mengembalikan Optional<User>
-        // Kita gunakan .orElse(null) untuk mengembalikan User jika ada, atau null jika tidak ada.
         return userRepository.findById(id).orElse(null); 
+    }
+
+    // Method 6: deleteUser
+    public SimpleApiResponse deleteUser(long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return new SimpleApiResponse("Akun berhasil dihapus.", true);
+        } else {
+            return new SimpleApiResponse("Gagal menghapus: User ID " + id + " tidak ditemukan.", false);
+        }
     }
 }

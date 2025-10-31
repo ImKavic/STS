@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Halaman Utama</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            background-color: #e6ffe6;
+        }
+        .profile-card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+            text-align: center;
+            width: 350px;
+        }
+        h1 { 
+            color: #008000; 
+            margin-bottom: 30px;
+        }
+        p { 
+            margin-top: 10px; 
+            color: #555; 
+            font-size: 16px;
+        }
+        /* Style untuk Tombol */
+        .action-button { 
+            width: 100%; 
+            padding: 12px; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold;
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s;
+            margin-top: 15px; /* Jarak antara tombol */
+        }
+        /* Tombol Edit Profile (Hijau) */
+        .edit-profile-button {
+            background-color: #28a745;
+        }
+        .edit-profile-button:hover {
+            background-color: #1e7e34;
+        }
+        /* Tombol Logout (Merah) */
+        .logout-button { 
+            background-color: #dc3545; 
+        }
+        .logout-button:hover { 
+            background-color: #c82333; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-card">
+    <h1>Selamat Datang di Halaman Utama!</h1>
+    <p>Autentikasi Berhasil. Anda berhasil masuk.</p>
+    <p>Ini adalah halaman yang dilindungi.</p>
+    
+    <button type="button" id="editProfileButton" class="action-button edit-profile-button">Edit Profil</button>
+    
+    <button id="logoutButton" class="action-button logout-button">Logout</button>
+</div>
+
+<script>
+    document.getElementById('editProfileButton').addEventListener('click', function() {
+        window.location.href = '/profile';
+    });
+    document.getElementById('logoutButton').addEventListener('click', handleLogout);
+
+    function handleLogout(event) {
+        event.preventDefault();
+        localStorage.removeItem('loggedInUserId');
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 500);
+    }
+</script>
+
+</body>
+</html>

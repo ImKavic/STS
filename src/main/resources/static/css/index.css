@@ -1,18 +1,18 @@
-/* CSS untuk tata letak dan styling */
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center; /* Posisikan kotak di tengah horizontal */
-    align-items: center; /* Posisikan kotak di tengah vertikal */
-    height: 100vh; /* Tinggi penuh viewport */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     margin: 0;
-    background-color: #f4f4f4;
+    background-color: #e6ffe6;
 }
 .login-container {
     background: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Bayangan yang lebih halus */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     width: 350px;
     text-align: center;
 }
@@ -38,7 +38,7 @@ input[type="text"], input[type="password"] {
 .btn-group {
     display: flex;
     justify-content: space-between;
-    gap: 10px; /* Jarak antar tombol */
+    gap: 10px;
     margin-top: 20px;
 }
 button {
@@ -48,9 +48,12 @@ button {
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s ease;
+    font-size: 16px; 
+    line-height: 1.2; 
+    text-align: center;
 }
 #signInButton {
-    flex-grow: 1; /* Tombol Sign In akan lebih besar */
+    flex-grow: 1; 
     background-color: #007bff;
     color: white;
 }
@@ -58,20 +61,15 @@ button {
     background-color: #0056b3;
 }
 #signUpButton {
-    flex-grow: 0.5; /* Tombol Sign Up sedikit lebih kecil */
-    background-color: #6c757d;
-    color: white;
-    text-decoration: none; /* Hilangkan garis bawah dari link */
-    
-    display: flex;
-    align-items: center; /* Menyelaraskan teks secara vertikal di tengah */
-    justify-content: center; /* Menyelaraskan teks secara horizontal di tengah */
-    padding: 12px; /* Menggunakan padding yang sama dengan tombol 'Sign In' */
-    border-radius: 6px;
-    font-weight: bold;
+    flex-grow: 0.5; 
+    background-color: #6c757d; 
+    color: #ffffff; 
+    border: 1px solid #6c757d;
 }
 #signUpButton:hover {
-    background-color: #5a6268;
+    background-color: #464c52;
+    color: #ffffff;
+    border-color: #464c52;
 }
 #message {
     margin-top: 15px;

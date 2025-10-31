@@ -1,4 +1,7 @@
 document.getElementById('loginForm').addEventListener('submit', handleLogin);
+document.getElementById('signUpButton').addEventListener('click', function() {
+    window.location.href = '/signup';
+});
 
 async function handleLogin(event) {
     event.preventDefault();
@@ -34,7 +37,7 @@ async function handleLogin(event) {
             
             // Redirect
             setTimeout(() => {
-                 window.location.href = '/profile'; 
+                 window.location.href = '/home'; 
             }, 1500); 
             
         } else {
