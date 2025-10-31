@@ -38,7 +38,7 @@ public class UserService
         if (user != null) {
             // Login sukses: Kembalikan ID pengguna
             String message = "Login successful. Welcome, " + user.getName() + "!";
-            return new LoginResponse(message, true, user.getId()); // user.getId() adalah kuncinya
+            return new LoginResponse(message, true, user.getId());
         } else {
             // Login gagal
             String message = "Invalid username or password.";
