@@ -22,7 +22,6 @@ import com.sts.service.UserService;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    // ... KODE ANDA YANG SEBELUMNYA SUDAH BENAR ...
     @Autowired
     private UserService userService;
 
