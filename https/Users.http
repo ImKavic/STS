@@ -1,8 +1,8 @@
 ### Base URL for the User API
 @baseUrl = http://localhost:8080/api/users
 @contentType = application/json
-@username = adit
-@password = kikiadit
+@username = unpam
+@password = unpam
 
 # =================================================================
 # 1. SIGNUP (POST: /api/users/signup)

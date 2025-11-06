@@ -19,6 +19,8 @@ import com.sts.model.SimpleApiResponse;
 import com.sts.model.User;
 import com.sts.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -36,8 +38,16 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody User user) {
-        LoginResponse response = userService.login(user.getUsername(), user.getPassword());
+    public ResponseEntity<LoginResponse> login(@RequestBody User user, HttpServletRequest request) {
+
+        String userAgent = request.getHeader("User-Agent");
+
+        if (userAgent == null || userAgent.isEmpty()) {
+            userAgent = "Unknown Client/Postman";
+        }
+
+        // 2. Teruskan informasi User-Agent ke Service
+        LoginResponse response = userService.login(user.getUsername(), user.getPassword(), userAgent);
         
         if (response.isSuccess()) {
             // 200 OK

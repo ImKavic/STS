@@ -10,12 +10,17 @@ import com.sts.model.LoginResponse;
 import com.sts.model.SimpleApiResponse;
 import com.sts.model.User;
 import com.sts.repository.UserRepository;
+import com.sts.model.LoginHistory;
+import com.sts.repository.LoginHistoryRepository;
 
 @Service
 public class UserService 
 {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired 
+    private LoginHistoryRepository loginHistoryRepository;
 
     // Method 1: getAllUsers
     public List<User> getAllUsers() {
@@ -32,15 +37,16 @@ public class UserService
     }
 
     // Method 3: login
-    public LoginResponse login(String username, String password) {
+    public LoginResponse login(String username, String password, String clientInfo) {
         User user = userRepository.findByUsernameAndPassword(username, password);
         
         if (user != null) {
-            // Login sukses: Kembalikan ID pengguna
+            LoginHistory history = new LoginHistory(user.getId(), clientInfo); 
+            loginHistoryRepository.save(history);
+
             String message = "Login successful. Welcome, " + user.getName() + "!";
             return new LoginResponse(message, true, user.getId());
         } else {
-            // Login gagal
             String message = "Invalid username or password.";
             return new LoginResponse(message, false, null);
         }
@@ -79,5 +85,10 @@ public class UserService
         } else {
             return new SimpleApiResponse("Gagal menghapus: User ID " + id + " tidak ditemukan.", false);
         }
+    }
+
+    // Method 7: getLoginHistory
+    public List<LoginHistory> getLoginHistory(Long userId) {
+        return loginHistoryRepository.findByUserIdOrderByLoginTimeDesc(userId);
     }
 }
