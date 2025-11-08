@@ -42,9 +42,9 @@
 
 ## ▶️ Run the Project
 
-1. Open **VS Code** or **Visual Studio**.  
-2. Launch with **F5** or **CTRL + F5**.
-
+1. Open **VS Code** or **Visual Studio**.
+2. In terminal, run: **mvn clean install**.
+3. Launch with **F5** or **CTRL + F5**.
 ---
 
 💡 *Tip:* After adding Maven to PATH, you can test it by opening **Command Prompt** and typing:
